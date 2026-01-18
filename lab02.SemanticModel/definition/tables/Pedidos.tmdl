@@ -1,0 +1,74 @@
+table Pedidos
+	lineageTag: 456ffd0e-0411-423f-ae07-5a0556bdeded
+
+	column 'ID Pedido'
+		dataType: string
+		lineageTag: e82f0f2f-f449-46e7-82a1-00dad4312dda
+		summarizeBy: none
+		sourceColumn: ID Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Pedido'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 81708204-850b-428a-8608-f08c31ebc623
+		summarizeBy: none
+		sourceColumn: Data Pedido
+
+		variation Variation
+			isDefault
+			relationship: 15c4efca-fe36-451c-860a-29c86701f32e
+			defaultHierarchy: LocalDateTable_b04cc637-4482-4819-a54a-1e7004f1a74c.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Data Envio'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0bee9013-2365-4429-9443-97b607671183
+		summarizeBy: none
+		sourceColumn: Data Envio
+
+		variation Variation
+			isDefault
+			relationship: 8feef60a-4b92-4a85-9c92-50632d7f79a4
+			defaultHierarchy: LocalDateTable_81af465d-f4bf-4c23-a8ad-ce7b0922f758.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Modo Envio'
+		dataType: string
+		lineageTag: c49d0a6d-caad-4a8b-bb82-4388a69d24e9
+		summarizeBy: none
+		sourceColumn: Modo Envio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prioridade Pedido'
+		dataType: string
+		lineageTag: ca30d3d4-179c-49c1-ac8d-f6df341ef4d5
+		summarizeBy: none
+		sourceColumn: Prioridade Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Pedidos = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("C:\Users\paulo\Desktop\POWER BI\DSA\Lab02\Pedidos.csv"),[Delimiter=";", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID Pedido", type text}, {"Data Pedido", type date}, {"Data Envio", type date}, {"Modo Envio", type text}, {"Prioridade Pedido", type text}}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Tipo Alterado")
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

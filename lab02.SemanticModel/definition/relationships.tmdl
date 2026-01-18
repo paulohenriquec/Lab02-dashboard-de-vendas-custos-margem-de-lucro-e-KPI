@@ -1,0 +1,22 @@
+relationship 15c4efca-fe36-451c-860a-29c86701f32e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.'Data Pedido'
+	toColumn: LocalDateTable_b04cc637-4482-4819-a54a-1e7004f1a74c.Date
+
+relationship 8feef60a-4b92-4a85-9c92-50632d7f79a4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.'Data Envio'
+	toColumn: LocalDateTable_81af465d-f4bf-4c23-a8ad-ce7b0922f758.Date
+
+relationship AutoDetected_70f691f4-9f3d-476b-8f7a-36691243faf9
+	fromColumn: Vendas.Cliente
+	toColumn: Clientes.'ID Cliente'
+
+relationship 2d739826-9047-f418-2973-2df8a55f3a15
+	fromColumn: Vendas.Pedido
+	toColumn: Pedidos.'ID Pedido'
+
+relationship dea30fbf-e95e-d753-722a-e733b33375bf
+	fromColumn: Vendas.Produto
+	toColumn: Produtos.'ID Produto'
+

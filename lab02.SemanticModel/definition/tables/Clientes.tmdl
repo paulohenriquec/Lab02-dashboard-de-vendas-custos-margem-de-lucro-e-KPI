@@ -1,0 +1,82 @@
+table Clientes
+	lineageTag: 72c64cca-59f4-42d5-be44-7ac9c09b947e
+
+	column 'ID Cliente'
+		dataType: string
+		lineageTag: 929ee847-3db5-4cb9-a36c-4933de639eab
+		summarizeBy: none
+		sourceColumn: ID Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome Cliente'
+		dataType: string
+		lineageTag: 29b20e3c-eac6-4c28-b789-efff110c99e6
+		summarizeBy: none
+		sourceColumn: Nome Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segmento
+		dataType: string
+		lineageTag: 17d8f61a-0c4b-4f18-8008-4d5ab8d2b1d1
+		summarizeBy: none
+		sourceColumn: Segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: 250087d3-7a87-4df5-b4cc-59bb15ab665d
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: cfe10f4a-3209-4aa2-9f03-ca534d9fcb28
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pais
+		dataType: string
+		lineageTag: 1211c745-65c2-4a82-87a8-ee6d65c38eee
+		summarizeBy: none
+		sourceColumn: Pais
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mercado
+		dataType: string
+		lineageTag: 0024bdda-cf2e-4605-904a-6f4757a038f8
+		summarizeBy: none
+		sourceColumn: Mercado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Regiao
+		dataType: string
+		lineageTag: 7de7e117-5b04-4732-a76d-ab9bee271d5e
+		summarizeBy: none
+		sourceColumn: Regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("C:\Users\paulo\Desktop\POWER BI\DSA\Lab02\Clientes.csv"),[Delimiter=";", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Tipo Alterado", [PromoteAllScalars=true]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID Cliente", type text}, {"Nome Cliente", type text}, {"Segmento", type text}, {"Cidade", type text}, {"Estado", type text}, {"Pais", type text}, {"Mercado", type text}, {"Regiao", type text}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
